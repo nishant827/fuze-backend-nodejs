@@ -7,6 +7,11 @@ var tableNames = {
 
 var tableauDbUtils = {};
 
+/**
+ * getPORequestDataForTableau method returns the list of PO Request grouping by sitename with count respective to PO Status
+ * @author Nishant Singh Gawer
+ * @version 1.0
+*/
 tableauDbUtils.getPORequestDataForTableau = () => {
     return new Promise((resolve, reject) => {
         try {
@@ -26,6 +31,12 @@ tableauDbUtils.getPORequestDataForTableau = () => {
     });
 }
 
+/**
+ * insertOneTableauData method saves a record to MySQL db in the po_request table
+ * @param tableauData: record values in json like site name and po status
+ * @author Nishant Singh Gawer
+ * @version 1.0
+*/
 tableauDbUtils.insertOneTableauData = (tableauData) => {
     return new Promise((resolve, reject) => {
         try {
@@ -43,52 +54,6 @@ tableauDbUtils.insertOneTableauData = (tableauData) => {
             reject(e);
         }
     });
-}
-
-tableauDbUtils.insertBulkTableauData = (bulkData) => {
-    return new Promise((resolve, reject) => {
-        try {
-            let data = bulkData;
-            if (data) {
-                resolve({});
-            }
-            else {
-                data = [];
-                let siteNames = ["EAST BRADELY", "MONROE STATION", "MARMADUKE AR", "BOSTONIA", "NW HIGH POINT", "WEST BRADELY"];
-                for (let i = 0; i < siteNames.length; i++) {
-                    let tableauResponse = getTableauResponse(siteNames[i]);
-                    data = data.concat(tableauResponse);
-                    data.push(tableauResponse);
-                    if (i == siteNames.length - 1) {
-                        // console.log(`Tableau response : ${JSON.stringify(tableauResponse, null, 2)}`);
-                        resolve({});
-                    }
-                }
-            }
-        }
-        catch (e) {
-            console.error(`Error catched while inserting bulk : ${e}`);
-            reject(e);
-        }
-    })
-}
-
-function getTableauResponse(siteName) {
-    let poStatus = ["Other/Unkown", "Cancelled", "Deleted", "Pending Approval", "Open", "Draft"];
-    let response = [];
-    for (let i = 0; i < poStatus.length; i++) {
-        let responseObj = {
-            siteName: siteName,
-            numberOfPORequests: Math.floor(Math.random() * (25 * (i + 1))),
-            poStatus: poStatus[i],
-            totalPOAmount: Math.random() * 100000
-        };
-        responseObj.totalPOAmount = +responseObj.totalPOAmount.toFixed(2);
-        response.push(responseObj);
-        if (i == poStatus.length - 1) {
-            return response;
-        }
-    }
 }
 
 module.exports = tableauDbUtils;

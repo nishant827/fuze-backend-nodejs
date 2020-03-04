@@ -2,6 +2,12 @@ const mysqlConfig = require("./mysql.config");
 
 var mysqlController = {};
 
+/**
+ * queryToMySqlDB is a method to query to perform operations at DB
+ * @param query: DB query to be fired to the Database
+ * @author Nishant Singh Gawer
+ * @version 1.0
+*/
 mysqlController.queryToMySqlDB = (query) => {
     return new Promise((resolve, reject) => {
         try {

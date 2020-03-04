@@ -6,7 +6,6 @@ router.get("/tableauData", (req, res) => {
     let todaysDate = new Date();
     console.log(`${req.headers.host} Hit POST /tableauData API at time-stamp : ${todaysDate.toLocaleDateString()} | ${todaysDate.toLocaleTimeString()}`);
     tableauDbUtils.getPORequestDataForTableau().then((result) => {
-        // console.log(`Result : ${JSON.stringify(result, null, 3)}`);
         res.send({ status: true, result: { data: result } });
     }, (error) => {
         res.status(500).send({ status: false, result: { error: error } });
@@ -28,16 +27,6 @@ router.post("/saveTableauData", (req, res) => {
     else {
         res.status(422).send({ status: false, result: { message: `Missing required fields in body.!` } });
     }
-});
-
-router.post("/saveBulkTableauData", (req, res) => {
-    let todaysDate = new Date();
-    console.log(`${req.headers.host} Hit POST /saveBulkTableauData API at time-stamp : ${todaysDate.toLocaleDateString()} | ${todaysDate.toLocaleTimeString()}`);
-    tableauDbUtils.insertBulkTableauData(null).then((result) => {
-        res.send({ status: true, result: { data: result } });
-    }, (error) => {
-        res.status(500).send({ status: false, result: { error: error } });
-    });
 });
 
 module.exports = router;
