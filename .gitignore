@@ -1,0 +1,5 @@
+# Files to be ignored while commiting
+package-lock.json
+
+# Folders to be ignored while commiting
+/node_modules
